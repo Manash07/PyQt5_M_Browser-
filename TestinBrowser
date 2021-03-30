@@ -1,0 +1,59 @@
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtWebEngineWidgets import *
+
+
+# Creating a class Mainframe which is going to be the main window for the browser
+# Super class is called in order to inherit features !!
+# Here Mainframe is child class of QMainWindow !!
+
+
+class MainFrame(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.browser = QWebEngineView()
+        self.browser.setUrl(QUrl("https://classroom.google.com")) # The default url of browser !!
+        self.setCentralWidget(self.browser)
+        self.showMaximized()  # Browser on full screen mode
+
+##################################################################################################
+
+# Navigation Bar
+# Adding a toolbar inside the navigation bar
+# Creating tabs for various purposes
+
+        navigationbar = QToolBar()
+        self.addToolBar(navigationbar)
+
+        reload_button = QAction('Reload', self)
+        reload_button.triggered.connect(self.browser.reload)
+        navigationbar.addAction(reload_button)
+
+        default_button = QAction('Default', self)
+        default_button.triggered.connect(self.default_site)
+        navigationbar.addAction(default_button)
+
+        zoom_button = QAction('Zoom', self)
+        zoom_button.triggered.connect(self.zoom_site)
+        navigationbar.addAction(zoom_button)
+
+    def default_site(self):
+        self.browser.setUrl(QUrl('https://classroom.google.com'))
+
+    def zoom_site(self):
+        self.browser.setUrl(QUrl('https://zoom.us'))
+
+
+####################################################################################
+
+
+application = QApplication(sys.argv)
+QApplication.setApplicationName("Parental Browser")  # Setting application name
+windows = MainFrame()  # Instance of Mainframe
+application.exec_()  # Executing the browser
+
+
+
+
+################## THIS ISNT A FULLY FUNCTIONING BROWSER ####################
